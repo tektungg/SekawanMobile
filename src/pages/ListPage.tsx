@@ -45,7 +45,7 @@ const ListPage = ({ navigation }: any) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>List Data</Text>
+      <Text style={styles.header}>Books List</Text>
       <TextInput
         style={styles.searchBar}
         placeholder="Search for books"
