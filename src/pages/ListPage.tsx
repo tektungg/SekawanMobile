@@ -1,33 +1,62 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator, TextInput } from 'react-native';
 
 const ListPage = ({ navigation }: any) => {
   const [data, setData] = useState<any[]>([]);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [query, setQuery] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
-  const fetchData = async (page: number) => {
+  const fetchData = async (page: number, query: string) => {
+    if (!query) {
+      setLoading(false);
+      return;
+    }
     setLoading(true);
-    const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=react&startIndex=${page * 10}&maxResults=10`);
-    const result = await response.json();
-    setData(prevData => [...prevData, ...result.items]);
+    setError(null);
+    try {
+      const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${page * 10}&maxResults=10&orderBy=relevance&printType=books`);
+      const result = await response.json();
+      if (result.items) {
+        setData(prevData => [...prevData, ...result.items]);
+      } else {
+        setError('No results found');
+      }
+    } catch (err) {
+      setError('Failed to fetch data');
+    }
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchData(page);
-  }, [page]);
+    fetchData(page, query);
+  }, [page, query]);
 
   const loadMore = () => {
     setPage(prevPage => prevPage + 1);
   };
 
+  const handleSearch = () => {
+    setData([]);
+    setPage(0);
+    fetchData(0, query);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>List Data</Text>
+      <TextInput
+        style={styles.searchBar}
+        placeholder="Search for books"
+        value={query}
+        onChangeText={setQuery}
+        onSubmitEditing={handleSearch}
+      />
+      {error && <Text style={styles.errorText}>{error}</Text>}
       <FlatList
         data={data}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) => `${item.id}-${index}`}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.item}
@@ -56,6 +85,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 16,
   },
+  searchBar: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 16,
+    width: '100%',
+  },
   item: {
     padding: 10,
     marginBottom: 10,
@@ -65,6 +103,10 @@ const styles = StyleSheet.create({
   },
   itemText: {
     fontSize: 18,
+  },
+  errorText: {
+    color: 'red',
+    marginBottom: 16,
   },
 });
 
