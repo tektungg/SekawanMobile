@@ -17,13 +17,13 @@ const ProfilePage = () => {
       <View style={styles.linksContainer}>
         <TouchableOpacity onPress={() => handlePress('https://github.com/tektungg')}>
           <Image
-            source={{ uri: 'https://image.flaticon.com/icons/png/512/25/25231.png' }} // GitHub icon URL
+            source={require('../../assets/ico/github.png')} // GitHub icon file path
             style={styles.linkImage}
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => handlePress('https://portfolio-tektung.my.canva.site/')}>
           <Image
-            source={{ uri: 'https://image.flaticon.com/icons/png/512/888/888879.png' }} // Portfolio icon URL
+            source={require('../../assets/ico/portfolio.png')} // Portfolio icon file path
             style={styles.linkImage}
           />
         </TouchableOpacity>
