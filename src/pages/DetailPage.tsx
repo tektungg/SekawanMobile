@@ -2,7 +2,8 @@ import { LogBox } from 'react-native';
 
 // Ignore specific warning messages
 LogBox.ignoreLogs([
-  'TRenderEngineProvider: Support for defaultProps will be removed from function components in a future major release.'
+  'TRenderEngineProvider: Support for defaultProps will be removed from function components in a future major release.',
+  'TNodeChildrenRenderer: Support for defaultProps will be removed from function components in a future major release.'
 ]);
 
 import React, { useEffect, useState } from 'react';
@@ -40,11 +41,12 @@ const DetailPage = ({ route }: any) => {
             <RenderHtml
               contentWidth={width}
               source={{ html: data.volumeInfo.description }}
+              baseStyle={styles.description}
             />
           ) : (
             <Text>No description available</Text>
           )}
-          <Text>Author: {data.volumeInfo.authors ? data.volumeInfo.authors.join(', ') : 'N/A'}</Text>
+          <Text style={styles.author}>Author: {data.volumeInfo.authors ? data.volumeInfo.authors.join(', ') : 'N/A'}</Text>
           <Text>Published Date: {data.volumeInfo.publishedDate}</Text>
         </>
       ) : (
@@ -70,6 +72,12 @@ const styles = StyleSheet.create({
     width: 200,
     height: 250,
     marginBottom: 16,
+  },
+  description: {
+    marginBottom: 16,
+  },
+  author: {
+    marginTop: 16,
   },
 });
 
