@@ -1,4 +1,5 @@
 import React from 'react';
+import { Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -19,7 +20,22 @@ const ListStack = () => (
 const App = () => {
   return (
     <NavigationContainer>
-      <Tab.Navigator screenOptions={{ headerShown: false }}>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => {
+            let iconSource;
+
+            if (route.name === 'Home') {
+              iconSource = require('./assets/ico/home.png');
+            } else if (route.name === 'Profile') {
+              iconSource = require('./assets/ico/profile.png');
+            }
+
+            return <Image source={iconSource} style={{ width: size, height: size, tintColor: color }} />;
+          },
+        })}
+      >
         <Tab.Screen name="Home" component={ListStack} />
         <Tab.Screen name="Profile" component={ProfilePage} />
       </Tab.Navigator>
