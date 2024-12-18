@@ -4,7 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomePage from './src/pages/HomePage';
-import ListPage from './src/pages/ListPage';
+import BookListPage from './src/pages/BookListPage';
+import MovieListPage from './src/pages/MovieListPage';
 import DetailMoviePage from './src/pages/DetailMoviePage';
 import ProfilePage from './src/pages/ProfilePage';
 import DetailBookPage from './src/pages/DetailBookPage';
@@ -14,7 +15,8 @@ const Tab = createBottomTabNavigator();
 
 const ListStack = () => (
   <Stack.Navigator>
-    <Stack.Screen name="List" component={ListPage} options={{ headerShown: false }} />
+    <Stack.Screen name="BookList" component={BookListPage} options={{ headerShown: false }} />
+    <Stack.Screen name="MovieList" component={MovieListPage} options={{ headerShown: false }} />
     <Stack.Screen name="Detail" component={DetailBookPage} options={{ title: 'Detail' }} />
     <Stack.Screen name="DetailMovie" component={DetailMoviePage} options={{ title: 'Detail' }} />
   </Stack.Navigator>
@@ -53,6 +55,6 @@ const MainTabs = () => (
     <Tab.Screen name="Home" component={HomePage} />
     <Tab.Screen name="Profile" component={ProfilePage} />
   </Tab.Navigator>
-)
+);
 
 export default App;
