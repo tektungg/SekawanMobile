@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator, TextInput } from 'react-native';
 
-const ListPage = ({ navigation }: any) => {
+const MovieListPage = ({ navigation }: any) => {
   const [data, setData] = useState<any[]>([]);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -16,10 +16,12 @@ const ListPage = ({ navigation }: any) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${page * 10}&maxResults=10&orderBy=relevance&printType=books`);
+      const apiKey = '3209508cd4eb5fe7221d5700050e4276';
+      const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}&page=${page + 1}`;
+      const response = await fetch(url);
       const result = await response.json();
-      if (result.items) {
-        setData(prevData => [...prevData, ...result.items]);
+      if (result.results) {
+        setData(prevData => [...prevData, ...result.results]);
       } else {
         setError('No results found');
       }
@@ -45,10 +47,10 @@ const ListPage = ({ navigation }: any) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Books List</Text>
+      <Text style={styles.header}>Movies List</Text>
       <TextInput
         style={styles.searchBar}
-        placeholder="Search for books"
+        placeholder="Search for movies"
         value={query}
         onChangeText={setQuery}
         onSubmitEditing={handleSearch}
@@ -60,9 +62,9 @@ const ListPage = ({ navigation }: any) => {
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.item}
-            onPress={() => navigation.navigate('Detail', { id: item.id })}
+            onPress={() => navigation.navigate('DetailMovie', { id: item.id })}
           >
-            <Text style={styles.itemText}>{item.volumeInfo.title}</Text>
+            <Text style={styles.itemText}>{item.title}</Text>
           </TouchableOpacity>
         )}
         onEndReached={loadMore}
@@ -110,4 +112,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ListPage;
+export default MovieListPage;
