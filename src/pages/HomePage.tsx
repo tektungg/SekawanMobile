@@ -4,8 +4,8 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 const HomePage = ({ navigation }: any) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Welcome</Text>
-      <Image source={{ uri: 'https://via.placeholder.com/200' }} style={styles.image} />
+      <Text style={styles.header}>Welcome to the Catalogue</Text>
+      <Image source={require('../../assets/img/image.png')} style={styles.image} />
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate('ListStack', { screen: 'BookList' })}
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#FFD700',
+    color: '#09182c',
     marginBottom: 16,
   },
   image: {
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   button: {
-    backgroundColor: '#FFD700',
+    backgroundColor: '#09182c',
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,

@@ -48,7 +48,7 @@ const MainTabs = () => (
 
         return <Image source={iconSource} style={{ width: size, height: size, tintColor: color }} />;
       },
-      tabBarActiveTintColor: '#FFD700', 
+      tabBarActiveTintColor: '#09182c', 
       tabBarInactiveTintColor: 'gray', 
     })}
   >
