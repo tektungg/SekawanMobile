@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator, TextInput } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator, TextInput, Image } from 'react-native';
 
 const BookListPage = ({ navigation }: any) => {
   const [data, setData] = useState<any[]>([]);
@@ -63,7 +63,15 @@ const BookListPage = ({ navigation }: any) => {
             style={styles.item}
             onPress={() => navigation.navigate('Detail', { id: item.id })}
           >
-            <Text style={styles.itemText}>{item.volumeInfo.title}</Text>
+            <Image
+              source={{ uri: item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.thumbnail : 'https://via.placeholder.com/150' }}
+              style={styles.thumbnail}
+            />
+            <View style={styles.itemContent}>
+              <Text style={styles.itemTitle}>{item.volumeInfo.title}</Text>
+              <Text style={styles.itemAuthor}>{item.volumeInfo.authors ? item.volumeInfo.authors.join(', ') : 'Unknown Author'}</Text>
+              <Text style={styles.itemDate}>{item.volumeInfo.publishedDate}</Text>
+            </View>
           </TouchableOpacity>
         )}
         onEndReached={loadMore}
@@ -77,14 +85,14 @@ const BookListPage = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#fff',
     padding: 16,
   },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
+    color: '#09182c',
   },
   searchBar: {
     height: 40,
@@ -96,14 +104,35 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   item: {
+    flexDirection: 'row',
     padding: 10,
     marginBottom: 10,
     backgroundColor: '#f9f9f9',
     borderRadius: 5,
     width: '100%',
+    alignItems: 'center',
   },
-  itemText: {
+  thumbnail: {
+    width: 50,
+    height: 75,
+    marginRight: 10,
+    borderRadius: 5,
+  },
+  itemContent: {
+    flex: 1,
+  },
+  itemTitle: {
     fontSize: 18,
+    fontWeight: 'bold',
+    color: '#09182c',
+  },
+  itemAuthor: {
+    fontSize: 14,
+    color: '#555',
+  },
+  itemDate: {
+    fontSize: 12,
+    color: '#999',
   },
   errorText: {
     color: 'red',
