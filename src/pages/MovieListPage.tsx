@@ -16,7 +16,7 @@ const MovieListPage = ({ navigation }: any) => {
     setLoading(true);
     setError(null);
     try {
-      const apiKey = '3209508cd4eb5fe7221d5700050e4276';
+      const apiKey = 'API-KEY';
       const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}&page=${page + 1}`;
       const response = await fetch(url);
       const result = await response.json();
